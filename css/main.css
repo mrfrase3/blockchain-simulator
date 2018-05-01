@@ -1,0 +1,10 @@
+#trans-data-hash,
+input,
+textarea {
+    font-family: courier!important;
+}
+
+.sticky {
+    background: white;
+    padding: 1em;
+}

@@ -1,0 +1,166 @@
+<html>
+<head>
+    <title>Block-Chain Sim</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.42/css/uikit.min.css" />
+    
+    <!-- UIkit JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.42/js/uikit.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.42/js/uikit-icons.min.js"></script>
+    
+    
+    <link rel="stylesheet" href="./css/main.css" />
+</head>
+
+<body>
+    <div class="uk-section">
+        <div class="uk-container">
+            <h1 class="uk-heading-primary">Block Chain Simulator</h1>
+        </div>
+    </div>
+    <div class="uk-section">
+        <div class="uk-container">
+            <h2 class="uk-heading-line uk-text-center"><span>Chain Settings</span></h2>
+            <form class="settings-form">
+                <div class="uk-grid-divider uk-child-width-expand@s" uk-grid>
+                    <div>
+                        <div class="uk-margin">
+                            <label class="uk-form-label" for="settings-diff">Difficulty - How many 0 characters required at beginning of a hash to be valid</label>
+                            <div class="uk-form-controls">
+                                <input class="uk-input" id="settings-diff" type="number" value="2" min="0" max="5">
+                            </div>
+                        </div>
+                        
+                        <div class="uk-margin">
+                            <label class="uk-form-label" for="settings-miner">Miner Identity</label>
+                            <div class="uk-form-controls">
+                                <input class="uk-input" id="settings-miner" type="text" value="Sally">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="uk-margin sticky" uk-sticky="offset: 20">
+                            <label class="uk-form-label" for="settings-speed">Hashing Speed - <span class="settings-speed-value"></span></label>
+                            <br>
+                            <div class="uk-form-controls">
+                                <input id="settings-speed" class="uk-range" type="range" value="1" min="0" max="6" step="1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="uk-section">
+        <div class="uk-container">
+            <h2 class="uk-heading-line uk-text-center"><span>Create New Block/Transaction</span></h2>
+            
+            <form class="trans-form">
+                <div class="uk-grid-divider uk-child-width-expand@s" uk-grid>
+                    <div>
+                        <div class="uk-margin">
+                            <label class="uk-form-label" for="trans-amount">Transaction Amount</label>
+                            <div class="uk-form-controls">
+                                <input class="uk-input" id="trans-amount" type="number" value="2" min="0">
+                            </div>
+                        </div>
+                        
+                        <div class="uk-margin">
+                            <label class="uk-form-label" for="trans-from">Transaction From</label>
+                            <div class="uk-form-controls">
+                                <input class="uk-input" id="trans-from" type="text" value="Jane" >
+                            </div>
+                        </div>
+                        
+                        <div class="uk-margin">
+                            <label class="uk-form-label" for="trans-to">Transaction To</label>
+                            <div class="uk-form-controls">
+                                <input class="uk-input" id="trans-to" type="text" value="John" >
+                            </div>
+                        </div>
+                
+                    </div>
+                    <div>
+                
+                        <div class="uk-margin">
+                            <label class="uk-form-label" for="trans-data">Type Random Data to Add</label>
+                            <div class="uk-form-controls">
+                                <textarea class="uk-textarea" id="trans-data"></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="uk-margin">
+                            <label class="uk-form-label" for="trans-data">Or, Upload Random Data to Add</label><br>
+                            <div uk-form-custom>
+                                <input type="file" id="trans-file">
+                                <button class="uk-button uk-button-default" type="button" tabindex="-1">Select File</button>
+                            </div>
+                        </div>
+                        
+                        <div class="uk-margin">
+                            <label class="uk-form-label" for="trans-data-hash">Hash of Random Data</label>
+                            <div class="uk-form-controls">
+                                <input class="uk-input disphash" id="trans-data-hash" type="text" placeholder="Populate data above" readonly>
+                            </div>
+                        </div>
+                
+                    </div>
+                </div>
+                <button type="submit" class="uk-button uk-button-primary">Create</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="display-progress uk-section uk-section-secondary" style="display:none;">
+        <div class="uk-container">
+            <h2 class="uk-heading-line uk-text-center"><span>Block/Transaction Progress</span></h2>
+            
+            <div class="display-block uk-grid-divider uk-child-width-expand@s" uk-grid>
+                <div>
+                    <h6>Block Hash</h6>
+                    <input class="uk-input disphash" type="text" readonly>
+                    <span class="valid-block-msg uk-text-success">Block Hash Meets Requirements</span>
+                    <span class="invalid-block-msg uk-text-danger" style="display:none;">Block Hash Does Not Meet Requirements, increasing count then hashing again...</span>
+                </div>
+                <div>
+                    <h6>Block Data</h6>
+                    <textarea class="uk-textarea" readonly rows="15"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="uk-section">
+        <div class="uk-container">
+            <h2 class="uk-heading-line uk-text-center"><span>Current Chain/Ledger</span></h2>
+            <ul uk-accordion class="display-chain">
+                <li class="uk-open genesis">
+                    <a class="uk-accordion-title" href="#">Genesis Block - <span class="disphash"></span></a>
+                    <div class="uk-accordion-content">
+                        <div class="display-block uk-grid-divider uk-child-width-expand@s" uk-grid>
+                            <div>
+                                <h6>Block Hash</h6>
+                                <input class="uk-input disphash" type="text" readonly>
+                                <span class="valid-block-msg uk-text-success">Block Hash Meets Requirements</span>
+                                <span class="invalid-block-msg uk-text-danger" style="display:none;">Block Hash Does Not Meet Requirements, increasing count then hashing again...</span>
+                            </div>
+                            <div>
+                                <h6>Block Data</h6>
+                                <textarea class="uk-textarea" readonly rows="15">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/spark-md5/3.0.0/spark-md5.min.js" integrity="sha256-vZfKuqtZrm/miyPulNgpGOT0P57rJDIoGfzzGaMuqfg=" crossorigin="anonymous"></script>
+    <script src="./js/main.js"></script>
+</body>
+</html>
